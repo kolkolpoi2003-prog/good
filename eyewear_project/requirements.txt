@@ -1,0 +1,8 @@
+Django
+python-decouple
+psycopg2-binary
+Pillow
+whitenoise
+gunicorn
+celery
+redis

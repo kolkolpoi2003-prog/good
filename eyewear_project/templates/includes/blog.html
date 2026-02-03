@@ -1,0 +1,56 @@
+<section id="blog">
+    <div class="wrap">
+        <div class="sectionHead">
+            <div data-aos="fade-up">
+                <div class="kicker">БЛОГ</div>
+                <h2 class="h2">ЗДОРОВЬЕ ГЛАЗ · ТРЕНДЫ · УХОД</h2>
+                <div class="sub">Коротко и по делу — последние статьи</div>
+            </div>
+        </div>
+
+        <div class="grid3">
+            <!-- Блок 1: Здоровье глаз -->
+            <div class="panel" data-aos="fade-up" data-aos-delay="100">
+                <div class="panelPad">
+                    <div class="kicker" style="margin-bottom:12px; opacity:.6">👁️ ЗДОРОВЬЕ ГЛАЗ</div>
+                    <h3 class="postTitle" style="margin-bottom:12px">Правило 20–20–20</h3>
+                    <div class="sub">Каждые 20 минут смотрите 20 секунд на
+                        объект в 6 метрах — снижает усталость и сухость глаз при работе за экраном.</div>
+                </div>
+            </div>
+
+            <!-- Блок 2: Тренды -->
+            <div class="panel" data-aos="fade-up" data-aos-delay="200">
+                <div class="panelPad">
+                    <div class="kicker" style="margin-bottom:12px; opacity:.6">😎 ТРЕНДЫ</div>
+                    <h3 class="postTitle" style="margin-bottom:12px">Очки — это аксессуар, а не
+                        компромисс</h3>
+                    <div class="sub">Современные оправы подбирают под форму лица
+                        и стиль одежды, а не только под диоптрии. Очки сегодня — часть имиджа.</div>
+                </div>
+            </div>
+
+            <!-- Блок 3: Уход -->
+            <div class="panel" data-aos="fade-up" data-aos-delay="300">
+                <div class="panelPad">
+                    <div class="kicker" style="margin-bottom:12px; opacity:.6">🧼 УХОД</div>
+                    <h3 class="postTitle" style="margin-bottom:12px">Не протирайте линзы одеждой</h3>
+                    <div class="sub">Даже мягкая ткань оставляет
+                        микроповреждения. Используйте салфетку из микрофибры и специальный спрей — линзы прослужат в
+                        разы дольше.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    window.BLOG_DATA = [
+        {% for post in blog_posts %}
+    {
+        title: "{{ post.title }}",
+            summary: "{{ post.summary|escapejs }}"
+    },
+    {% endfor %}
+    ];
+</script>

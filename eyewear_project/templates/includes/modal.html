@@ -1,0 +1,29 @@
+<div class="modal" id="productModal">
+    <div class="modal-content">
+        <div class="modal-details">
+            <div class="modal-details-content">
+                <div class="modal-breadcrumbs" id="modalBreadcrumbs">Catalog / Eyewear / Fabricio</div>
+                <h2 class="modal-title" id="modalTitle">FABRICIO EYEWEAR</h2>
+                <div class="modal-price" id="modalPrice">6200.00 ₽</div>
+
+                <div id="modalDetailsContainer" style="margin-top: 40px;">
+                    <div class="modal-section-title">SPECIFICATIONS</div>
+                    <ul class="modal-list" id="modalDetailsList">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-media">
+            <div class="modal-close" onclick="closeProductModal()">×</div>
+            <div class="modal-nav">
+                <div class="modal-nav-btn prev" onclick="navProductModal(-1)">←</div>
+                <div class="modal-nav-btn next" onclick="navProductModal(1)">→</div>
+            </div>
+            <div class="modal-img-container">
+                <img id="modalImg" src="" alt="">
+            </div>
+        </div>
+    </div>
+</div>

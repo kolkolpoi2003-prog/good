@@ -1,0 +1,40 @@
+{% load static %}
+<div class="nav">
+    <div class="wrap navbar">
+        <a class="brand" href="#top" style="overflow: visible; display: flex; align-items: center; height: 64px;">
+            <img src="{% static 'images/brand_logo.png' %}" alt="Студия Оптики"
+                style="height: 280px; width: auto; margin: -100px 0; position: relative; top: 10px; z-index: 100; max-width: none;">
+        </a>
+
+        <div class="navLinks">
+            <a href="#catalog">Каталог</a>
+            <a href="#hits">Хиты</a>
+            <a href="#blog">Блог</a>
+            <a href="#testimonials">Отзывы</a>
+            <a href="#contacts">Контакты</a>
+        </div>
+
+        <div class="navRight">
+            <a class="btn" href="#catalog">Смотреть</a>
+            <a class="btn primary" href="#contacts">Записаться</a>
+
+            <div class="menuToggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobileMenu" id="mobileMenu">
+    <a href="#catalog" onclick="toggleMenu()">Каталог</a>
+    <a href="#hits" onclick="toggleMenu()">Хиты</a>
+    <a href="#blog" onclick="toggleMenu()">Блог</a>
+    <a href="#testimonials" onclick="toggleMenu()">Отзывы</a>
+    <a href="#contacts" onclick="toggleMenu()">Контакты</a>
+    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px; width: 100%;">
+        <a class="btn primary" href="#contacts" onclick="toggleMenu()" style="text-align: center;">Записаться</a>
+    </div>
+</div>

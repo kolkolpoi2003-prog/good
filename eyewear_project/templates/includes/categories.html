@@ -1,0 +1,50 @@
+{% load static %}
+<section id="catalog">
+    <div class="wrap">
+        <div class="sectionHead">
+            <div>
+                <div class="kicker">КАТАЛОГ</div>
+                <h2 class="h2">ВЫБЕРИТЕ СВОЙ СТИЛЬ</h2>
+                <div class="sub">Коллекции, в которых каждый найдёт свой стиль</div>
+            </div>
+        </div>
+
+        <div class="catGrid" id="categoryCards">
+            <!-- ЖЕНЩИНАМ -->
+            <div class="catCard" data-aos="fade-up" data-aos-delay="100">
+                <div class="catMedia">
+                    <img src="{% static 'ЖЕНСКИЕ/photo_2024-09-12_19-04-55.jpg' %}" alt="Женщинам" loading="lazy">
+                    <div class="catArrow left" onclick="event.preventDefault(); changeCatImage(0, -1)">‹</div>
+                    <div class="catArrow right" onclick="event.preventDefault(); changeCatImage(0, 1)">›</div>
+                </div>
+                <a class="catLabel" href="#hits">
+                    <b>ЖЕНЩИНАМ</b>
+                </a>
+            </div>
+
+            <!-- МУЖЧИНАМ -->
+            <div class="catCard" data-aos="fade-up" data-aos-delay="200">
+                <div class="catMedia">
+                    <img src="{% static 'мужское/photo_2024-01-29_11-05-44.jpg' %}" alt="Мужчинам" loading="lazy">
+                    <div class="catArrow left" onclick="event.preventDefault(); changeCatImage(1, -1)">‹</div>
+                    <div class="catArrow right" onclick="event.preventDefault(); changeCatImage(1, 1)">›</div>
+                </div>
+                <a class="catLabel" href="#hits">
+                    <b>МУЖЧИНАМ</b>
+                </a>
+            </div>
+
+            <!-- ДЕТЯМ -->
+            <div class="catCard" data-aos="fade-up" data-aos-delay="300">
+                <div class="catMedia">
+                    <img src="{% static 'детские/photo_2022-03-15_16-51-49.jpg' %}" alt="Детям" loading="lazy">
+                    <div class="catArrow left" onclick="event.preventDefault(); changeCatImage(2, -1)">‹</div>
+                    <div class="catArrow right" onclick="event.preventDefault(); changeCatImage(2, 1)">›</div>
+                </div>
+                <a class="catLabel" href="#hits">
+                    <b>ДЕТЯМ</b>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

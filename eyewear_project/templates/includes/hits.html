@@ -1,0 +1,57 @@
+<section id="hits">
+    <div class="wrap">
+        <div class="sectionHead">
+            <div>
+                <div class="kicker">ХИТЫ ПРОДАЖ</div>
+                <h2 class="h2">ТОП МОДЕЛИ МЕСЯЦА</h2>
+                <div class="sub">Короткая подборка вместо длинного каталога</div>
+            </div>
+            <div style="display:flex; gap:10px">
+                <button class="btn" onclick="scrollHits(-1)">←</button>
+                <button class="btn" onclick="scrollHits(1)">→</button>
+            </div>
+        </div>
+
+        <div class="slider" id="hitsSlider">
+            {% for product in top_models %}
+            <div class="cardSmall" onclick="openProductModal({{ forloop.counter0 }})" style="cursor: pointer;">
+                <div class="img">
+                    {% with product.images.first as img %}
+                    <img src="{% if img %}{{ img.image.url }}{% else %}https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&q=80{% endif %}"
+                        alt="{{ product.name }}" loading="lazy">
+                    {% endwith %}
+                </div>
+                <div class="meta">
+                    <div style="display:flex; justify-content:space-between; align-items:baseline">
+                        <span class="price" style="font-size:15px">{{ product.name }}</span>
+                        <span class="price">{{ product.price }} ₽</span>
+                    </div>
+                    <div class="tag">{{ product.brand.name }} · {{ product.color_name }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        window.HITS_DATA = [
+            {% for product in top_models %}
+        {
+        "name": "{{ product.name|escapejs }}",
+            "price": "{{ product.price }} ₽",
+                "category": "{{ product.category.name|escapejs }}",
+                    "brand": "{{ product.brand.name|escapejs }}",
+                        "material": "{{ product.material|escapejs }}",
+                            "color": "{{ product.color_name|escapejs }}",
+                                "protection": "{{ product.protection|escapejs }}",
+                                    "isHandmade": {% if product.is_handmade %} true{% else %} false{% endif %},
+        "package": "{{ product.package_contents|escapejs }}",
+            "description": "{{ product.description|escapejs }}",
+                "img": "{% with product.images.first as img %}{% if img %}{{ img.image.url }}{% endif %}{% endwith %}"
+    } {% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    ];
+}) ();
+</script>

@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Студия Оптики</title>
+
+  <style>
+    /* Optional font (closest to "Open Sauce Two" vibe).
+       If CDN blocked — всё останется красиво на системных шрифтах. */
+    @import url('https://fonts.cdnfonts.com/css/open-sauce-sans');
+
+    :root {
+      /* ===== Amigo-like palette (from your screenshots) ===== */
+      --canvas: #F6F6EF;
+      /* Canvas Light */
+      --mint: #B5F2E6;
+      /* Sky Mint */
+      --coral: #FECAC5;
+      /* Soft Coral */
+      --ink: #393D3F;
+      /* Amigo Ink */
+
+      /* System tokens */
+      --bg: var(--canvas);
+      --panel: rgba(255, 255, 255, .72);
+      --panel2: rgba(255, 255, 255, .56);
+      --line: rgba(57, 61, 63, .14);
+      --line2: rgba(57, 61, 63, .09);
+      --text: var(--ink);
+      --muted: rgba(57, 61, 63, .72);
+      --ghost: rgba(57, 61, 63, .06);
+
+      --shadow: 0 22px 70px rgba(57, 61, 63, .12);
+      --shadow2: 0 10px 30px rgba(57, 61, 63, .10);
+
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1200px;
+
+      --ease: cubic-bezier(.2, .8, .2, 1);
+
+      /* Type */
+      --caps: .22em;
+      --caps2: .12em;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: "Open Sauce Sans", "Open Sauce Two", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: .15px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    img {
+      max-width: 100%;
+      display: block
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 20px
+    }
+
+    /* Soft gradient canvas like screenshots */
+    .page {
+      background:
+        radial-gradient(1000px 700px at 18% 18%, rgba(181, 242, 230, .55), transparent 60%),
+        radial-gradient(1100px 700px at 70% 25%, rgba(254, 202, 197, .55), transparent 62%),
+        radial-gradient(900px 600px at 45% 70%, rgba(181, 242, 230, .22), transparent 62%),
+        linear-gradient(to bottom, rgba(57, 61, 63, .03), transparent 26%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    /* Top nav — light, blurred, minimal */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(to bottom, rgba(246, 246, 239, .82), rgba(246, 246, 239, .62));
+      border-bottom: 1px solid var(--line2);
+    }
+
+    .navbar {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .brand small {
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: var(--caps2);
+      text-transform: uppercase;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: var(--caps2);
+      color: var(--muted);
+    }
+
+    .navlinks a {
+      padding: 10px 8px;
+      border-radius: 999px
+    }
+
+    .navlinks a:hover {
+      color: var(--text);
+      background: rgba(181, 242, 230, .18)
+    }
+
+    .navRight {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .35);
+      color: var(--text);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: var(--caps2);
+      text-transform: uppercase;
+      transition: transform .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      box-shadow: 0 10px 22px rgba(57, 61, 63, .06);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: rgba(181, 242, 230, .22);
+      border-color: rgba(57, 61, 63, .22);
+      box-shadow: 0 14px 30px rgba(57, 61, 63, .10);
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: var(--canvas);
+      border-color: transparent;
+      box-shadow: 0 14px 36px rgba(57, 61, 63, .22);
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      background: #2f3335;
+    }
+
+    /* HERO — light editorial */
+    header {
+      padding: 18px 0 10px
+    }
+
+    .hero {
+      border: 1px solid var(--line2);
+      border-radius: var(--radius2);
+      overflow: hidden;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, .62), rgba(255, 255, 255, .40));
+      box-shadow: var(--shadow);
+    }
+
+    .heroGrid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      min-height: 560px;
+    }
+
+    .heroLeft {
+      padding: 22px 22px 18px;
+      border-right: 1px solid var(--line2);
+      background:
+        radial-gradient(700px 520px at 20% 10%, rgba(181, 242, 230, .22), transparent 60%),
+        radial-gradient(700px 520px at 60% 20%, rgba(254, 202, 197, .22), transparent 60%),
+        rgba(255, 255, 255, .34);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .kicker {
+      font-size: 11px;
+      letter-spacing: var(--caps);
+      text-transform: uppercase;
+      color: rgba(57, 61, 63, .62);
+      font-weight: 800;
+    }
+
+    .heroTitle {
+      margin: 0;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: -.03em;
+      line-height: .92;
+      font-size: 56px;
+      color: var(--ink);
+    }
+
+    .heroIndex {
+      font-size: 12px;
+      letter-spacing: var(--caps);
+      text-transform: uppercase;
+      color: rgba(57, 61, 63, .70);
+      margin-left: 10px;
+      font-weight: 900;
+    }
+
+    .heroText {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+      max-width: 520px;
+    }
+
+    .heroCTA {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px
+    }
+
+    .heroBottom {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line2);
+    }
+
+    .miniRow {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      overflow: auto;
+      scrollbar-width: thin;
+      padding-bottom: 2px;
+    }
+
+    .mini {
+      width: 72px;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      flex: 0 0 auto;
+      opacity: .78;
+      cursor: pointer;
+      transition: opacity .18s var(--ease), transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease);
+      background: rgba(255, 255, 255, .55);
+      box-shadow: 0 10px 18px rgba(57, 61, 63, .08);
+    }
+
+    .mini img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .mini:hover {
+      opacity: 1;
+      transform: translateY(-1px)
+    }
+
+    .mini.active {
+      opacity: 1;
+      border-color: rgba(57, 61, 63, .26);
+      box-shadow: 0 14px 26px rgba(57, 61, 63, .14);
+    }
+
+    .navArrows {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .circleBtn {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(57, 61, 63, .22);
+      background: rgba(255, 255, 255, .42);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease);
+      user-select: none;
+      box-shadow: 0 10px 22px rgba(57, 61, 63, .08);
+    }
+
+    .circleBtn:hover {
+      transform: translateY(-1px);
+      background: rgba(254, 202, 197, .22);
+      border-color: rgba(57, 61, 63, .30);
+      box-shadow: 0 14px 30px rgba(57, 61, 63, .12);
+    }
+
+    .heroRight {
+      position: relative;
+      background: rgba(255, 255, 255, .26);
+    }
+
+    .heroMedia {
+      position: absolute;
+      inset: 0;
+    }
+
+    .heroMedia img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: contrast(1.03) saturate(1.02);
+      opacity: .96;
+    }
+
+    .heroFade {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(246, 246, 239, .92) 0%, rgba(246, 246, 239, .18) 55%, rgba(246, 246, 239, .06) 100%),
+        linear-gradient(to top, rgba(246, 246, 239, .42), rgba(246, 246, 239, 0) 60%);
+      pointer-events: none;
+    }
+
+    /* Brand image stamp */
+    .brandStamp {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: min(360px, 64%);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line2);
+      background: rgba(255, 255, 255, .55);
+      box-shadow: var(--shadow2);
+    }
+
+    .brandStamp img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: .98;
+    }
+
+    /* Sections */
+    section {
+      padding: 44px 0
+    }
+
+    .sectionHead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .h2 {
+      margin: 6px 0 0;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: -.02em;
+      line-height: 1.03;
+      font-size: 40px;
+      color: var(--ink);
+    }
+
+    .sub {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    /* Category cards — light */
+    .catGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .catCard {
+      border-radius: var(--radius2);
+      overflow: hidden;
+      border: 1px solid var(--line2);
+      background: rgba(255, 255, 255, .62);
+      box-shadow: var(--shadow2);
+      transition: transform .2s var(--ease), border-color .2s var(--ease), box-shadow .2s var(--ease);
+    }
+
+    .catCard:hover {
+      transform: translateY(-2px);
+      border-color: rgba(57, 61, 63, .18);
+      box-shadow: 0 18px 44px rgba(57, 61, 63, .14);
+    }
+
+    .catMedia {
+      aspect-ratio: 16/10;
+      background: rgba(255, 255, 255, .35)
+    }
+
+    .catMedia img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .catLabel {
+      padding: 14px 16px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--line2);
+      background:
+        linear-gradient(90deg, rgba(181, 242, 230, .14), rgba(254, 202, 197, .12));
+    }
+
+    .catLabel b {
+      text-transform: uppercase;
+      letter-spacing: var(--caps);
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--ink);
+    }
+
+    .arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .40);
+      box-shadow: 0 10px 18px rgba(57, 61, 63, .08);
+    }
+
+    /* Hits slider */
+    .slider {
+      display: flex;
+      gap: 12px;
+      overflow: auto;
+      padding-bottom: 10px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+    }
+
+    .cardSmall {
+      flex: 0 0 auto;
+      width: 260px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--line2);
+      background: rgba(255, 255, 255, .62);
+      box-shadow: var(--shadow2);
+      scroll-snap-align: start;
+    }
+
+    .cardSmall .img {
+      aspect-ratio: 4/3
+    }
+
+    .cardSmall .img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .cardSmall .meta {
+      padding: 14px 14px 16px;
+      border-top: 1px solid var(--line2)
+    }
+
+    .price {
+      font-weight: 950;
+      letter-spacing: .02em;
+      color: var(--ink)
+    }
+
+    .tag {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.55
+    }
+
+    /* Blog — editorial cards */
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line2);
+      border-radius: var(--radius2);
+      background: rgba(255, 255, 255, .62);
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+    }
+
+    .panelPad {
+      padding: 16px
+    }
+
+    .postTitle {
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    /* Contacts */
+    .input {
+      flex: 1;
+      min-width: 220px;
+      padding: 14px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .55);
+      color: var(--ink);
+      outline: none;
+      box-shadow: 0 10px 22px rgba(57, 61, 63, .06);
+    }
+
+    .input::placeholder {
+      color: rgba(57, 61, 63, .55)
+    }
+
+    .newsletter {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0 52px;
+      border-top: 1px solid var(--line2);
+      background:
+        radial-gradient(900px 520px at 20% 20%, rgba(254, 202, 197, .25), transparent 60%),
+        radial-gradient(900px 520px at 70% 30%, rgba(181, 242, 230, .25), transparent 60%),
+        linear-gradient(to top, rgba(57, 61, 63, .03), transparent);
+    }
+
+    .footGrid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .footCols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .footCols h4 {
+      margin: 0 0 10px;
+      font-size: 11px;
+      letter-spacing: var(--caps);
+      text-transform: uppercase;
+      color: rgba(57, 61, 63, .62);
+      font-weight: 900;
+    }
+
+    .footCols a {
+      display: block;
+      padding: 8px 0;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: var(--caps2);
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .footCols a:hover {
+      color: var(--ink)
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .navlinks {
+        display: none
+      }
+
+      .heroGrid {
+        grid-template-columns: 1fr
+      }
+
+      .heroLeft {
+        border-right: none;
+        border-bottom: 1px solid var(--line2)
+      }
+
+      .brandStamp {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 16px;
+        width: auto
+      }
+
+      .catGrid {
+        grid-template-columns: 1fr
+      }
+
+      .grid2 {
+        grid-template-columns: 1fr
+      }
+
+      .footGrid {
+        grid-template-columns: 1fr
+      }
+
+      .footCols {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .heroTitle {
+        font-size: 46px
+      }
+    }
+
+    @media (max-width: 420px) {
+      .heroTitle {
+        font-size: 38px
+      }
+
+      .h2 {
+        font-size: 32px
+      }
+
+      .circleBtn {
+        width: 42px;
+        height: 42px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- NAV -->
+    <div class="nav">
+      <div class="wrap navbar">
+        <a class="brand" href="#top">
+          <span>СТУДИЯ ОПТИКИ</span>
+          <small>ОПТИЧЕСКАЯ СТУДИЯ</small>
+        </a>
+
+        <div class="navlinks">
+          <a href="#catalog">Каталог</a>
+          <a href="#hits">Хиты</a>
+          <a href="#blog">Блог</a>
+          <a href="#contacts">Контакты</a>
+        </div>
+
+        <div class="navRight">
+          <a class="btn" href="#catalog">Смотреть</a>
+          <a class="btn primary" href="#contacts">Записаться</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <header id="top">
+      <div class="wrap">
+        <div class="hero">
+          <div class="heroGrid">
+
+            <!-- LEFT -->
+            <div class="heroLeft">
+              <div>
+                <div class="kicker">О НАС</div>
+                <h1 class="heroTitle">
+                  УНИКАЛЬНЫЕ<br />ПРЕДЛОЖЕНИЯ
+                  <span class="heroIndex" id="heroIndex">[01]</span>
+                </h1>
+
+                <div class="heroText" id="heroText">
+                  Подбор оправ и линз “как стилист”: быстро, минималистично, без перегруза.
+                  2 000+ моделей в наличии — показываем только то, что подходит именно вам.
+                </div>
+
+                <div class="heroCTA">
+                  <button class="btn primary" type="button" onclick="openQuiz()">Пройти тест</button>
+                  <a class="btn" href="#catalog">Каталог</a>
+                </div>
+              </div>
+
+              <div class="heroBottom">
+                <div class="miniRow" id="heroThumbs"></div>
+                <div class="navArrows">
+                  <div class="circleBtn" id="heroPrev" title="Prev">←</div>
+                  <div class="circleBtn" id="heroNext" title="Next">→</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="heroRight">
+              <div class="heroMedia">
+                <img id="heroMainImg" alt="Hero slide" />
+              </div>
+              <div class="heroFade"></div>
+
+              <!-- your brand image stamp -->
+              <div class="brandStamp">
+                <img id="heroBrandImg" alt="Студия Оптики (бренд)" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CATALOG -->
+    <section id="catalog">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div>
+            <div class="kicker">КАТАЛОГ</div>
+            <div class="h2">БОЛЕЕ 2 000 МОДЕЛЕЙ И 70 БРЕНДОВ</div>
+            <div class="sub">От доступных до эксклюзивных · умный показ вместо бесконечного списка</div>
+          </div>
+        </div>
+
+        <div class="catGrid" id="categoryCards"></div>
+      </div>
+    </section>
+
+    <!-- HITS -->
+    <section id="hits">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div>
+            <div class="kicker">ХИТЫ ПРОДАЖ</div>
+            <div class="h2">ТОП МОДЕЛИ МЕСЯЦА</div>
+            <div class="sub">Короткая подборка вместо длинного каталога</div>
+          </div>
+          <div style="display:flex; gap:10px">
+            <button class="btn" type="button" onclick="scrollHits(-1)">←</button>
+            <button class="btn" type="button" onclick="scrollHits(1)">→</button>
+          </div>
+        </div>
+
+        <div class="slider" id="hitsSlider"></div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog">
+      <div class="wrap">
+        <div class="sectionHead">
+          <div>
+            <div class="kicker">БЛОГ</div>
+            <div class="h2">ЗДОРОВЬЕ ГЛАЗ · ТРЕНДЫ · УХОД</div>
+            <div class="sub">Коротко и по делу — 3 статьи на главной</div>
+          </div>
+          <a class="btn" href="#contacts">Подписка</a>
+        </div>
+
+        <div class="grid2" id="blogGrid"></div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section id="contacts">
+      <div class="wrap grid2">
+        <div class="panel">
+          <div class="panelPad">
+            <div class="kicker">КОНТАКТЫ</div>
+            <div class="h2" style="font-size:34px">ЗАПИСЬ НА ПРИЁМ</div>
+            <div class="sub">Оставьте телефон — мы уточним время и поможем с подбором</div>
+
+            <div class="newsletter">
+              <input class="input" placeholder="Телефон или email" />
+              <button class="btn primary" type="button">Отправить</button>
+            </div>
+
+            <div class="sub" style="margin-top:14px">
+              Адрес: (вставишь) <br />
+              Время работы: (вставишь) <br />
+              Телефон: (вставишь)
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panelPad">
+            <div class="kicker">КАРТА</div>
+            <div class="h2" style="font-size:34px">КАК НАС НАЙТИ</div>
+            <div class="sub">Сюда вставишь iframe Google/2GIS/Яндекс</div>
+
+            <div
+              style="margin-top:14px; border-radius:18px; overflow:hidden; border:1px solid var(--line2); background: rgba(255,255,255,.55)">
+              <div style="aspect-ratio:16/9; display:grid; place-items:center; padding:18px; text-align:center;">
+                <div class="kicker">КАРТА</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px">
+              <button class="btn" type="button" onclick="callNow()">Позвонить</button>
+              <button class="btn primary" type="button" onclick="openQuiz()">Подбор</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="wrap footGrid">
+        <div>
+          <div class="brand" style="margin-bottom:10px">
+            <span>СТУДИЯ ОПТИКИ</span> <small>ОПТИЧЕСКАЯ СТУДИЯ</small>
+          </div>
+          <div class="sub" style="max-width:560px">
+            Минимализм, редакционная подача, крупные фото и “умная витрина” вместо перегруженного каталога.
+          </div>
+
+          <div class="newsletter">
+            <input class="input" placeholder="Email для рассылки" />
+            <button class="btn" type="button">Подписаться</button>
+          </div>
+
+          <div class="sub" style="margin-top:12px; font-size:12px">© <span id="year"></span> Студия Оптики</div>
+        </div>
+
+        <div class="footCols">
+          <div>
+            <h4>Меню</h4>
+            <a href="#catalog">Каталог</a>
+            <a href="#hits">Хиты</a>
+            <a href="#blog">Блог</a>
+            <a href="#contacts">Контакты</a>
+          </div>
+          <div>
+            <h4>Сервис</h4>
+            <a href="#contacts">Запись</a>
+            <a href="#contacts">Гарантия</a>
+            <a href="#contacts">FAQ</a>
+          </div>
+          <div>
+            <h4>Соцсети</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Telegram</a>
+            <a href="#">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // =========================
+    // ДАННЫЕ (меняй тут картинки/тексты)
+    // =========================
+    const DATA = {
+      heroBrandImage: "20260127_1631_Image Generation_remix_01kfz97rs7fam8xfjvcv69vmrm.png",
+
+      heroSlides: [
+        {
+          title: "УНИКАЛЬНЫЕ ПРЕДЛОЖЕНИЯ",
+          text: "Подбор оправ и линз “как стилист”: быстро, минималистично, без перегруза. 2 000+ моделей — показываем только то, что подходит именно вам.",
+          img: "https://images.unsplash.com/photo-1520975682031-ae5ab04b9b5a?auto=format&fit=crop&w=2000&q=80"
+        },
+        {
+          title: "ВАШ ЛИЧНЫЙ ОПТИК",
+          text: "Лаконичный каталог: категории + хиты. Остальное — через умный тест и консультацию.",
+          img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=2000&q=80"
+        },
+        {
+          title: "ВЗГЛЯНИТЕ НА МИР ЯСНО",
+          text: "Минимум лишнего — максимум уверенности. Запись на проверку зрения и подбор за 1 минуту.",
+          img: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=2000&q=80"
+        }
+      ],
+
+      categories: [
+        { label: "ЖЕНСКИЕ", img: "https://images.unsplash.com/photo-1520975958214-9f7f7a7bc01b?auto=format&fit=crop&w=2000&q=80", href: "#hits" },
+        { label: "МУЖСКИЕ", img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=2000&q=80", href: "#hits" },
+        { label: "ДЕТСКИЕ", img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=2000&q=80", href: "#hits" },
+      ],
+
+      hits: [
+        { name: "Astra / Minimal", price: "€129", tag: "лёгкая оправа", img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1400&q=80" },
+        { name: "Classic / Office", price: "€149", tag: "деловой стиль", img: "https://images.unsplash.com/photo-1520975958214-9f7f7a7bc01b?auto=format&fit=crop&w=1400&q=80" },
+        { name: "Kids / Flex", price: "€89", tag: "гибкие дужки", img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1400&q=80" },
+        { name: "Sun / Polar", price: "€159", tag: "поляризация", img: "https://images.unsplash.com/photo-1520975682031-ae5ab04b9b5a?auto=format&fit=crop&w=1400&q=80" },
+        { name: "Ultra Light", price: "€139", tag: "невесомые", img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=1400&q=80" },
+      ],
+
+      blog: [
+        { title: "Как выбрать оправу по форме лица", desc: "Круглое/овальное/квадратное — короткие подсказки.", img: "https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa?auto=format&fit=crop&w=2000&q=80" },
+        { title: "Тренды оптики 2025/2026", desc: "Минимализм, тонкий металл, прозрачные материалы.", img: "https://images.unsplash.com/photo-1520975867597-0c7dd8c7f0b5?auto=format&fit=crop&w=2000&q=80" },
+        { title: "Уход за линзами без царапин", desc: "Салфетки, спреи, хранение — базовые правила.", img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=2000&q=80" },
+      ],
+    };
+
+    const $ = (s) => document.querySelector(s);
+
+    // === Initializing Data ===
+
+    // 1. Categories
+    const catContainer = document.getElementById("categoryCards");
+    if (catContainer) {
+      DATA.categories.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "catCard";
+        el.innerHTML = `
+        <div class="catMedia"><img src="${item.img}" alt=""></div>
+        <a class="catLabel" href="${item.href}">
+          <b>${item.label}</b>
+          <div class="arrow">→</div>
+        </a>
+      `;
+        catContainer.appendChild(el);
+      });
+    }
+
+    // 2. Hits Slider
+    const hitsContainer = document.getElementById("hitsSlider");
+    if (hitsContainer) {
+      DATA.hits.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "cardSmall";
+        el.innerHTML = `
+        <div class="img"><img src="${item.img}" alt="${item.name}"></div>
+        <div class="meta">
+          <div style="display:flex; justify-content:space-between; align-items:baseline">
+            <span class="price" style="font-size:15px">${item.name}</span>
+            <span class="price">${item.price}</span>
+          </div>
+          <div class="tag">${item.tag}</div>
+        </div>
+      `;
+        hitsContainer.appendChild(el);
+      });
+    }
+
+    // 3. Blog Grid
+    const blogContainer = document.getElementById("blogGrid");
+    if (blogContainer) {
+      DATA.blog.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "panel";
+        el.innerHTML = `
+        <div class="panelPad">
+          <div class="sub" style="margin-top:0; font-size:11px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:8px; opacity:.6">Статья</div>
+          <div class="postTitle" style="font-size:22px; margin-bottom:10px">${item.title}</div>
+          <div class="sub" style="font-size:14px; line-height:1.6">${item.desc}</div>
+        </div>
+      `;
+        blogContainer.appendChild(el);
+      });
+    }
+
+    // 4. Hero Slider Logic
+    let currentSlide = 0;
+    const slides = DATA.heroSlides;
+    const heroIndex = document.getElementById("heroIndex");
+    const heroTitle = document.querySelector(".heroTitle");
+    const heroText = document.getElementById("heroText");
+    const heroImg = document.getElementById("heroMainImg");
+    const thumbsRow = document.getElementById("heroThumbs");
+
+    function renderHero(idx) {
+      if (!slides[idx]) return;
+      currentSlide = idx;
+
+      // Update Text
+      if (heroIndex) heroIndex.textContent = `[0${idx + 1}]`;
+      if (heroTitle) heroTitle.innerHTML = slides[idx].title.replace(/\n/g, "<br/>");
+      if (heroText) heroText.textContent = slides[idx].text;
+
+      // Update Image
+      if (heroImg) {
+        heroImg.style.opacity = 0;
+        setTimeout(() => {
+          heroImg.src = slides[idx].img;
+          heroImg.onload = () => heroImg.style.opacity = 1;
+        }, 200);
+      }
+
+      // Update Thumbs Active State
+      const allThumbs = document.querySelectorAll(".mini");
+      allThumbs.forEach((t, i) => {
+        if (i === idx) t.classList.add("active");
+        else t.classList.remove("active");
+      });
+    }
+
+    // Render Thumbs
+    if (thumbsRow) {
+      slides.forEach((sl, i) => {
+        const t = document.createElement("div");
+        t.className = `mini ${i === 0 ? 'active' : ''}`;
+        t.onclick = () => renderHero(i);
+        t.innerHTML = `<img src="${sl.img}" alt="">`;
+        thumbsRow.appendChild(t);
+      });
+    }
+
+    // Bind Arrows
+    const btnPrev = document.getElementById("heroPrev");
+    const btnNext = document.getElementById("heroNext");
+
+    if (btnPrev) btnPrev.onclick = () => {
+      let newIdx = currentSlide - 1;
+      if (newIdx < 0) newIdx = slides.length - 1;
+      renderHero(newIdx);
+    };
+
+    if (btnNext) btnNext.onclick = () => {
+      let newIdx = currentSlide + 1;
+      if (newIdx >= slides.length) newIdx = 0;
+      renderHero(newIdx);
+    };
+
+    // Initial Render
+    renderHero(0);
+
+    // Footer Year
+    const y = document.getElementById("year");
+    if (y) y.textContent = new Date().getFullYear();
+
+    // Global functions for buttons
+    window.openQuiz = () => alert("Открыть квиз / тест");
+    window.scrollHits = (dir) => {
+      if (hitsContainer) hitsContainer.scrollBy({ left: dir * 300, behavior: 'smooth' });
+    };
+    window.callNow = () => alert("Позвонить");
+
+  </script>
+</body>
+
+</html>
