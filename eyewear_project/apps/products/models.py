@@ -34,8 +34,8 @@ class Product(models.Model):
     protection = models.CharField(max_length=100, blank=True, verbose_name="Защита")
     is_handmade = models.BooleanField(default=False, verbose_name="Ручная работа")
     package_contents = models.CharField(max_length=200, blank=True, verbose_name="Комплект")
-    is_active = models.BooleanField(default=True, verbose_name="Активен")
-    is_featured = models.BooleanField(default=False, verbose_name="Хит продаж")
+    is_active = models.BooleanField(default=True, db_index=True, verbose_name="Активен")
+    is_featured = models.BooleanField(default=False, db_index=True, verbose_name="Хит продаж")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

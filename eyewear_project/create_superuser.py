@@ -1,7 +1,16 @@
 import os
 import django
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
+# Determine settings module
+settings_module = os.environ.get('DJANGO_SETTINGS_MODULE')
+if not settings_module:
+    # Try to detect if we are in docker or local
+    if os.path.exists('/.dockerenv'):
+        settings_module = 'config.settings.production'
+    else:
+        settings_module = 'config.settings.development'
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 django.setup()
 
 from django.contrib.auth import get_user_model

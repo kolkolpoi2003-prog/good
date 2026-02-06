@@ -1,0 +1,171 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: yarko_postgres_local
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-django_db}
+      POSTGRES_USER: ${DB_USER:-django_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-devpassword}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"  # Exposed for database GUI tools
+    networks:
+      - django_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-django_user} -d ${DB_NAME:-django_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache and Celery Broker
+  redis:
+    image: redis:7-alpine
+    container_name: yarko_redis_local
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"  # Exposed for Redis GUI tools
+    networks:
+      - django_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Django Web Application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: yarko_web_local
+    restart: unless-stopped
+    working_dir: /app/eyewear_project
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-local-dev-key-change-me}
+      - DEBUG=${DEBUG:-True}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,0.0.0.0}
+      - DB_NAME=${DB_NAME:-django_db}
+      - DB_USER=${DB_USER:-django_user}
+      - DB_PASSWORD=${DB_PASSWORD:-devpassword}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./:/app  # Live code reloading
+      - static_volume_local:/app/eyewear_project/staticfiles
+      - media_volume_local:/app/eyewear_project/media
+    ports:
+      - "8000:8000"  # Direct access to Django
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - django_network
+
+  # Celery Worker for Async Tasks
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: yarko_celery_worker_local
+    restart: unless-stopped
+    working_dir: /app/eyewear_project
+    command: celery -A config worker --loglevel=info --concurrency=2
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-local-dev-key-change-me}
+      - DEBUG=${DEBUG:-True}
+      - DB_NAME=${DB_NAME:-django_db}
+      - DB_USER=${DB_USER:-django_user}
+      - DB_PASSWORD=${DB_PASSWORD:-devpassword}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./:/app
+      - media_volume_local:/app/eyewear_project/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - django_network
+
+  # Celery Beat for Scheduled Tasks
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: yarko_celery_beat_local
+    restart: unless-stopped
+    working_dir: /app/eyewear_project
+    command: celery -A config beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-local-dev-key-change-me}
+      - DEBUG=${DEBUG:-True}
+      - DB_NAME=${DB_NAME:-django_db}
+      - DB_USER=${DB_USER:-django_user}
+      - DB_PASSWORD=${DB_PASSWORD:-devpassword}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - django_network
+
+  # Nginx Web Server (Optional for local testing)
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: yarko_nginx_local
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.local.conf:/etc/nginx/nginx.conf:ro
+      - static_volume_local:/app/staticfiles:ro
+      - media_volume_local:/app/mediafiles:ro
+    depends_on:
+      - web
+    networks:
+      - django_network
+    profiles:
+      - with-nginx  # Optional service, start with: docker-compose --profile with-nginx up
+
+# Named volumes for data persistence
+volumes:
+  postgres_data_local:
+    driver: local
+  static_volume_local:
+    driver: local
+  media_volume_local:
+    driver: local
+
+# Custom network
+networks:
+  django_network:
+    driver: bridge

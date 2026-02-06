@@ -14,7 +14,7 @@ class BlogPost(models.Model):
     ])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=True)
+    is_published = models.BooleanField(default=True, db_index=True)
 
     def __str__(self):
         return self.title

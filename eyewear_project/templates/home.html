@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
   <!-- External Styles -->
-  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/home.css' %}?v=3.5" />
 </head>
 
 <body>
@@ -31,37 +31,39 @@
 
   {% include 'includes/modal.html' %}
 
-  <!-- External Scripts -->
   <script>
     window.CATEGORY_DATA = [
       {
         name: "ЖЕНЩИНАМ",
         images: [
-          "{% static 'ЖЕНСКИЕ/photo_2024-09-12_19-04-55.jpg' %}",
-          "{% static 'ЖЕНСКИЕ/photo_2024-10-01_15-51-29.jpg' %}",
-          "{% static 'ЖЕНСКИЕ/photo_2025-08-30_12-09-45.jpg' %}"
+          "{% static 'ЖЕНСКИЕ/IMG_0023.JPG' %}",
+          "{% static 'ЖЕНСКИЕ/IMG_0029.JPG' %}",
+          "{% static 'ЖЕНСКИЕ/IMG_0033.JPG' %}"
         ]
       },
       {
         name: "МУЖЧИНАМ",
         images: [
-          "{% static 'мужское/photo_2024-01-29_11-05-44.jpg' %}",
-          "{% static 'мужское/photo_2024-10-07_13-06-44.jpg' %}"
+          "{% static 'мужское/IMG_0026.JPG' %}",
+          "{% static 'мужское/IMG_0028.JPG' %}",
+          "{% static 'мужское/IMG_0032.PNG' %}"
         ]
       },
       {
         name: "ДЕТЯМ",
         images: [
-          "{% static 'детские/photo_2022-03-15_16-51-49.jpg' %}",
-          "{% static 'детские/photo_2024-09-25_15-39-59.jpg' %}",
-          "{% static 'детские/photo_2025-07-25_15-00-39.jpg' %}"
+          "{% static 'детские/IMG_0024.JPG' %}",
+          "{% static 'детские/IMG_0030.JPG' %}",
+          "{% static 'детские/IMG_0031.JPG' %}"
         ]
       }
     ];
   </script>
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="{% static 'js/home.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.32/dist/lenis.min.js"></script>
+  <script src="{% static 'js/home.js' %}?v=2.0"></script>
 </body>
 
 </html>

@@ -6,30 +6,32 @@
                 <h2 class="h2">ТОП МОДЕЛИ МЕСЯЦА</h2>
                 <div class="sub">Короткая подборка вместо длинного каталога</div>
             </div>
-            <div style="display:flex; gap:10px">
-                <button class="btn" onclick="scrollHits(-1)">←</button>
-                <button class="btn" onclick="scrollHits(1)">→</button>
-            </div>
         </div>
 
-        <div class="slider" id="hitsSlider">
-            {% for product in top_models %}
-            <div class="cardSmall" onclick="openProductModal({{ forloop.counter0 }})" style="cursor: pointer;">
-                <div class="img">
-                    {% with product.images.first as img %}
-                    <img src="{% if img %}{{ img.image.url }}{% else %}https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&q=80{% endif %}"
-                        alt="{{ product.name }}" loading="lazy">
-                    {% endwith %}
-                </div>
-                <div class="meta">
-                    <div style="display:flex; justify-content:space-between; align-items:baseline">
-                        <span class="price" style="font-size:15px">{{ product.name }}</span>
-                        <span class="price">{{ product.price }} ₽</span>
+        <div class="slider-container">
+            <button class="circleBtn side-btn left" id="hitsPrev" aria-label="Previous items">←</button>
+            <div class="slider" id="hitsSlider">
+                <div class="slider-track" id="hitsTrack">
+                    {% for product in top_models %}
+                    <div class="cardSmall" onclick="openProductModal({{ forloop.counter0 }})" style="cursor: pointer;">
+                        <div class="img-container">
+                            {% with product.images.first as img %}
+                            <img src="{% if img %}{{ img.image.url }}{% else %}https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&q=80{% endif %}"
+                                alt="{{ product.name }}" loading="lazy">
+                            {% endwith %}
+                        </div>
+                        <div class="meta">
+                            <div style="display:flex; justify-content:space-between; align-items:baseline">
+                                <span class="price" style="font-size:15px">{{ product.name }}</span>
+                                <span class="price">{{ product.price }} ₽</span>
+                            </div>
+                            <div class="tag">{{ product.brand.name }} · {{ product.color_name }}</div>
+                        </div>
                     </div>
-                    <div class="tag">{{ product.brand.name }} · {{ product.color_name }}</div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+            <button class="circleBtn side-btn right" id="hitsNext" aria-label="Next items">→</button>
         </div>
     </div>
 </section>
