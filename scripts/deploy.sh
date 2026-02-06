@@ -80,4 +80,4 @@ echo -e "${BLUE}=== Service Status ===${NC}"
 docker compose ps
 
 echo -e "${GREEN}=== Deployment Complete ===${NC}"
-echo -e "${BLUE}Application is running at: https://yarko-solntse.ru${NC}"
+echo -e "${BLUE}Application is running at: https://yarko-solntse.online${NC}"

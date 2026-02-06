@@ -16,8 +16,8 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-DOMAIN=${DOMAIN:-yarko-solntse.ru}
-EMAIL=${EMAIL:-admin@yarko-solntse.ru}
+DOMAIN=${DOMAIN:-yarko-solntse.online}
+EMAIL=${EMAIL:-admin@yarko-solntse.online}
 
 echo -e "${BLUE}=== SSL Certificate Setup ===${NC}"
 echo -e "${YELLOW}Domain: $DOMAIN${NC}"

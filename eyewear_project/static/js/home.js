@@ -317,8 +317,32 @@ if ($('#productModal')) $('#productModal').onclick = (e) => { if (e.target === $
         if ($('#heroText')) $('#heroText').textContent = slds[i].text;
         if ($('#heroMainImg')) {
             const img = $('#heroMainImg');
-            if (!img.src) { img.src = slds[i].img; img.style.opacity = 1; }
-            else { img.style.opacity = 0; setTimeout(() => { img.src = slds[i].img; img.onload = () => img.style.opacity = 1; }, 200); }
+            let imgLoaded = false;
+
+            // Safeguard for Safari: if image doesn't load/trigger onload, force opacity
+            const forceVisible = setTimeout(() => {
+                if (!imgLoaded) {
+                    img.style.opacity = 1;
+                }
+            }, 1000);
+
+            if (!img.src) {
+                img.src = slds[i].img;
+                img.style.opacity = 1;
+                imgLoaded = true;
+                clearTimeout(forceVisible);
+            }
+            else {
+                img.style.opacity = 0;
+                setTimeout(() => {
+                    img.src = slds[i].img;
+                    img.onload = () => {
+                        imgLoaded = true;
+                        clearTimeout(forceVisible);
+                        img.style.opacity = 1;
+                    };
+                }, 200);
+            }
         }
         document.querySelectorAll(".mini").forEach((t, j) => t.classList.toggle("active", i === j));
 
