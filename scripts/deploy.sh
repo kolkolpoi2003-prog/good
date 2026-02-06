@@ -67,12 +67,12 @@ done
 
 # Step 7: Run migrations
 echo -e "${YELLOW}Running database migrations...${NC}"
-docker compose exec -T web python manage.py migrate --noinput
+docker compose exec -T web python eyewear_project/manage.py migrate --noinput
 echo -e "${GREEN}✓ Migrations complete${NC}"
 
 # Step 8: Collect static files
 echo -e "${YELLOW}Collecting static files...${NC}"
-docker compose exec -T web python manage.py collectstatic --noinput --clear
+docker compose exec -T web python eyewear_project/manage.py collectstatic --noinput --clear
 echo -e "${GREEN}✓ Static files collected${NC}"
 
 # Step 9: Display service status

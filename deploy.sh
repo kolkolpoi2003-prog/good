@@ -14,10 +14,10 @@ docker-compose down
 docker-compose up -d
 
 echo "📊 Collecting static files..."
-docker-compose exec -T web python manage.py collectstatic --noinput
+docker-compose exec -T web python eyewear_project/manage.py collectstatic --noinput
 
 echo "💾 Running migrations..."
-docker-compose exec -T web python manage.py migrate --noinput
+docker-compose exec -T web python eyewear_project/manage.py migrate --noinput
 
 echo "✅ Deployment complete!"
 docker-compose ps
