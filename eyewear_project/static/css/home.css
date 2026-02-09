@@ -165,7 +165,7 @@ img {
         inset 0 0 0 1px rgba(255, 255, 255, 0.6) !important;
     transition: all 0.9s var(--ease-premium);
     position: relative;
-    will-change: transform, filter, box-shadow;
+    will-change: transform, opacity, filter;
     transform: translateZ(0);
     user-select: none;
     -webkit-user-drag: none;

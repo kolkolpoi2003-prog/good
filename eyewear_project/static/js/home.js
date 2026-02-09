@@ -56,6 +56,18 @@ const $ = (s) => document.querySelector(s);
 window.lastHitsDragEnd = 0;
 window.lastTestimonialsDragEnd = 0;
 
+// === Preloader ===
+const preloadedImages = {};
+function preloadImages(urls) {
+    if (!urls) return;
+    urls.forEach(url => {
+        if (!url || preloadedImages[url]) return;
+        const img = new Image();
+        img.src = url;
+        preloadedImages[url] = img;
+    });
+}
+
 // === Categories ===
 const catStates = (DATA.categories || []).map(() => 0);
 function updateCatImage(catIdx) {
@@ -63,14 +75,39 @@ function updateCatImage(catIdx) {
     const img = card?.querySelector('.catMedia img');
     if (!img) return;
     const newSrc = DATA.categories[catIdx].images[catStates[catIdx]];
+
+    // Smooth transition
     if (window.gsap) {
         const tl = gsap.timeline();
-        tl.to(img, { opacity: 0, scale: 0.92, rotationY: 8, duration: 0.4, ease: "power2.in", onComplete: () => { img.src = newSrc; } });
-        tl.to(img, { opacity: 1, scale: 1, rotationY: 0, duration: 0.8, ease: "power3.out" });
+        tl.to(img, {
+            opacity: 0,
+            scale: 0.98,
+            duration: 0.2,
+            ease: "power2.in",
+            onComplete: () => {
+                img.src = newSrc;
+            }
+        });
+        tl.to(img, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out"
+        });
     } else {
         img.src = newSrc;
     }
 }
+async function initPreload() {
+    const imagesToPreload = [];
+    if (DATA.heroSlides) DATA.heroSlides.forEach(s => imagesToPreload.push(s.img));
+    if (DATA.categories) DATA.categories.forEach(c => {
+        if (c.images) c.images.forEach(img => imagesToPreload.push(img));
+    });
+    preloadImages(imagesToPreload);
+}
+initPreload();
+
 window.changeCatImage = (catIdx, dir) => {
     if (!DATA.categories[catIdx]) return;
     let next = (catStates[catIdx] + dir + DATA.categories[catIdx].images.length) % DATA.categories[catIdx].images.length;
@@ -317,31 +354,22 @@ if ($('#productModal')) $('#productModal').onclick = (e) => { if (e.target === $
         if ($('#heroText')) $('#heroText').textContent = slds[i].text;
         if ($('#heroMainImg')) {
             const img = $('#heroMainImg');
-            let imgLoaded = false;
+            const newSrc = slds[i].img;
 
-            // Safeguard for Safari: if image doesn't load/trigger onload, force opacity
-            const forceVisible = setTimeout(() => {
-                if (!imgLoaded) {
-                    img.style.opacity = 1;
-                }
-            }, 1000);
-
-            if (!img.src) {
-                img.src = slds[i].img;
+            // Instant swap if preloaded or already cached
+            if (img.src.includes(newSrc)) {
                 img.style.opacity = 1;
-                imgLoaded = true;
-                clearTimeout(forceVisible);
-            }
-            else {
+            } else {
                 img.style.opacity = 0;
+                // Faster swap since it should be in cache
                 setTimeout(() => {
-                    img.src = slds[i].img;
+                    img.src = newSrc;
                     img.onload = () => {
-                        imgLoaded = true;
-                        clearTimeout(forceVisible);
                         img.style.opacity = 1;
                     };
-                }, 200);
+                    // Backup if onload doesn't fire (Safari cache bug)
+                    setTimeout(() => { img.style.opacity = 1; }, 100);
+                }, 50);
             }
         }
         document.querySelectorAll(".mini").forEach((t, j) => t.classList.toggle("active", i === j));
