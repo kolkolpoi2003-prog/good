@@ -2276,29 +2276,32 @@ footer {
     .modal-img-container {
         order: 1;
         width: 100%;
-        padding: 40px 20px 20px;
-        background: radial-gradient(circle at center, rgba(197, 160, 89, 0.08) 0%, var(--bg) 100%);
+        padding: 30px 10px 10px;
+        background: radial-gradient(circle at center, rgba(197, 160, 89, 0.1) 0%, var(--bg) 100%);
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 50vh;
+        min-height: 55vh;
         position: relative;
+        transform: translateZ(0);
+        /* Hardware acceleration */
     }
 
     .modal-img-container img {
-        width: 92%;
-        max-width: 340px;
+        width: 98%;
+        max-width: 360px;
         height: auto;
-        max-height: 42vh;
+        max-height: 48vh;
         object-fit: contain;
         background: #fff;
-        padding: 20px;
-        border-radius: 48px !important;
+        padding: 15px;
+        border-radius: 56px !important;
         box-shadow:
-            0 40px 100px -20px rgba(0, 0, 0, 0.15),
-            inset 0 0 0 1.5px rgba(197, 160, 89, 0.1) !important;
+            0 50px 120px -30px rgba(0, 0, 0, 0.2),
+            inset 0 0 0 1.5px rgba(197, 160, 89, 0.12) !important;
         border: none !important;
         transition: all 1.2s var(--ease-premium);
+        will-change: transform, opacity;
     }
 
     .modal-img-container:hover img {

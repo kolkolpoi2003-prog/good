@@ -104,7 +104,27 @@ async function initPreload() {
     if (DATA.categories) DATA.categories.forEach(c => {
         if (c.images) c.images.forEach(img => imagesToPreload.push(img));
     });
-    preloadImages(imagesToPreload);
+
+    // De-duplicate URLs
+    const uniqueImages = [...new Set(imagesToPreload)];
+
+    // Prioritize first slide, then idle load others
+    const firstImage = uniqueImages.shift();
+    if (firstImage) preloadImages([firstImage]);
+
+    const loadOthers = () => {
+        if (window.requestIdleCallback) {
+            requestIdleCallback(() => preloadImages(uniqueImages));
+        } else {
+            setTimeout(() => preloadImages(uniqueImages), 2000);
+        }
+    };
+
+    if (document.readyState === 'complete') {
+        loadOthers();
+    } else {
+        window.addEventListener('load', loadOthers);
+    }
 }
 initPreload();
 
